@@ -1,20 +1,20 @@
 from fastapi import status, APIRouter
 from fastapi.exceptions import HTTPException
 from typing import List
-from book_data import books
-from schemas import Book, BookUpdate
+from src.books.book_data import books
+from src.books.schemas import Book, BookUpdate
 
 
 book_router = APIRouter()
 
 
 # RETURNS LIST OF BOOKS
-@book_router.get("/books", response_model=List[Book])
+@book_router.get("/", response_model=List[Book])
 async def get_all_books():
     return books
 
 
-@book_router.post("/book", status_code=status.HTTP_201_CREATED)
+@book_router.post("/", status_code=status.HTTP_201_CREATED)
 async def create_book(book_data: Book) -> dict:
     # Generate a dictionary representation of the model
     new_book = book_data.model_dump()
@@ -23,7 +23,7 @@ async def create_book(book_data: Book) -> dict:
     return new_book
 
 
-@book_router.get("/book/{book_id}")
+@book_router.get("/{book_id}")
 async def get_book_by_id(book_id: int) -> dict:
     for book in books:
         if book["id"] == book_id:
@@ -34,7 +34,7 @@ async def get_book_by_id(book_id: int) -> dict:
     )
 
 
-@book_router.patch("/book/{book_id}")
+@book_router.patch("/{book_id}")
 async def update_book_by_id(book_id: int, updated_book_data: BookUpdate) -> dict:
     for book in books:
         if book["id"] == book_id:
@@ -50,7 +50,7 @@ async def update_book_by_id(book_id: int, updated_book_data: BookUpdate) -> dict
     )
 
 
-@book_router.delete("/book/{book_id}", status_code=status.HTTP_204_NO_CONTENT)
+@book_router.delete("/{book_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_book_by_id(book_id: int):
     book_to_delete = next((book for book in books if book["id"] == book_id), None)
 
