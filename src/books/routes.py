@@ -3,7 +3,7 @@ from fastapi.exceptions import HTTPException
 from typing import List
 from book_data import books
 from schemas import Book, BookUpdate
-from main import app
+from __init__ import app
 
 
 book_router = APIRouter()
