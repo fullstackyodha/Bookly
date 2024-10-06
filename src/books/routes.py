@@ -3,7 +3,6 @@ from fastapi.exceptions import HTTPException
 from typing import List
 from book_data import books
 from schemas import Book, BookUpdate
-from __init__ import app
 
 
 book_router = APIRouter()
@@ -63,7 +62,3 @@ async def delete_book_by_id(book_id: int):
         status_code=status.HTTP_404_NOT_FOUND,
         detail=f"Book with id {book_id} not found",
     )
-
-
-# Include an APIRouter in the same app
-app.include_router(book_router)

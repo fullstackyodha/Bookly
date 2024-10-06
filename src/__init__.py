@@ -1,10 +1,13 @@
 # FastAPI framework, high performance, easy to learn, fast to code, ready for production
 from fastapi import FastAPI, status
-
+from books.routes import book_router
 
 # FastAPI app class, the main entrypoint to use FastAPI.
 app = FastAPI()
 
+
+# Include an APIRouter in the same app
+app.include_router(book_router)
 
 # @app.get("/")
 # async def read_root():
