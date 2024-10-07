@@ -1,17 +1,21 @@
-from fastapi import status, APIRouter
+from fastapi import status, APIRouter, Depends
 from fastapi.exceptions import HTTPException
 from typing import List
 from src.books.book_data import books
-from src.books.schemas import Book, BookUpdate
-
+from src.books.schemas import Book, BookUpdateModel
+from src.db.main import get_Session
+from sqlmodel.ext.asyncio.session import AsyncSession
+from .service import BookService
 
 book_router = APIRouter()
-
+book_service = BookService()
 
 # RETURNS LIST OF BOOKS
 @book_router.get("/", response_model=List[Book])
-async def get_all_books():
-    return books
+async def get_all_books(session: AsyncSession= Depends(get_Session)):
+    all_books = book_service.get_all_books(session)
+    
+    return all_books
 
 
 @book_router.post("/", status_code=status.HTTP_201_CREATED)
@@ -35,7 +39,7 @@ async def get_book_by_id(book_id: int) -> dict:
 
 
 @book_router.patch("/{book_id}")
-async def update_book_by_id(book_id: int, updated_book_data: BookUpdate) -> dict:
+async def update_book_by_id(book_id: int, updated_book_data: BookUpdateModel) -> dict:
     for book in books:
         if book["id"] == book_id:
             book["title"] = updated_book_data.title

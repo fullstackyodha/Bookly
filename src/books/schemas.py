@@ -24,7 +24,7 @@ class BookCreateModel(BaseModel):
     language: str
 
 
-class BookUpdate(BaseModel):
+class BookUpdateModel(BaseModel):
     title: str
     author: str
     publisher: str
