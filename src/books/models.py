@@ -9,14 +9,14 @@ class Book(SQLModel, table=True):
 
     uid: uuid.UUID = Field(
         sa_column=Column(
-            pg.UUID, primary_key=True, unique=True, nullable=False, default=uuid.uuid4
+            pg.UUID, primary_key=True, unique=True, nullable=False, default=uuid.uuid4()
         )
     )
 
     title: str
     author: str
     publisher: str
-    published_date: date
+    published_date: str
     page_count: int
     language: str
 
