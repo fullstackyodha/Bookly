@@ -22,20 +22,17 @@ class BookService:
 
     async def create_book(self, book_data: BookCreateModel, session: AsyncSession):
         book_data_dict = book_data.model_dump()
+
         new_book = Book(**book_data_dict)
 
-        # new datetime parsed from a string
-        # new_book.published_date = datetime.strptime(
-        #     book_data_dict["published_date"], "%Y-%m-%d"
-        # )
+        new_book.published_date = datetime.strptime(
+            book_data_dict["published_date"], "%Y-%m-%d"
+        )
 
-        # Place an object into this _orm.Session
         session.add(new_book)
 
-        # commit the current transaction in progress
         await session.commit()
 
-        # Return the new object
         return new_book
 
     async def update_books(
