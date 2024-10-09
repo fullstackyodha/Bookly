@@ -40,6 +40,7 @@ async def get_book_by_id(
     book = await book_service.get_book(book_uid, session)
 
     if book is not None:
+        # Returns a dictionary similar to response model
         return book
 
     raise HTTPException(
@@ -64,16 +65,17 @@ async def update_book_by_id(
 
 
 @book_router.delete("/{book_uid}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_book_by_id(
+async def delete_book_by_id( 
     book_uid: str,
     session: AsyncSession = Depends(get_Session),
 ):
     book_to_delete = await book_service.delete_book(book_uid, session)
 
-    if book_to_delete:
-        return None
-
-    raise HTTPException(
+    if book_to_delete is None:
+        raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,
         detail=f"Book with id {book_uid} not found",
     )
+    else:
+        return {}
+    
