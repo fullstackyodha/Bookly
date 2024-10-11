@@ -3,15 +3,15 @@ from src.db.main import get_Session
 from sqlmodel.ext.asyncio.session import AsyncSession
 from src.auth.schemas import UserCreate
 from .service import UserService
-from .schemas import User
+from .schemas import UserCreate, UserModel
 
 auth_router = APIRouter()
 user_service = UserService()
 
 
-@auth_router.post("/signup", response_model= User, status_code=status.HTTP_201_CREATED)
+@auth_router.post("/signup", response_model = UserModel, status_code=status.HTTP_201_CREATED)
 async def create_user_account(user_data: UserCreate, session: AsyncSession = Depends(get_Session)):
-    email = user_data.emai
+    email = user_data.email
     
     user_exists = await user_service.user_exists(email, session)
     
