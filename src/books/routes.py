@@ -6,14 +6,16 @@ from src.books.schemas import Book, BookUpdateModel, BookCreateModel
 from src.db.main import get_Session
 from sqlmodel.ext.asyncio.session import AsyncSession
 from .service import BookService
-
+from src.auth.dependencies import AccessTokenBearer
+ 
 book_router = APIRouter()
 book_service = BookService()
+access_token_bearer = AccessTokenBearer()
 
 
 # RETURNS LIST OF BOOKS
 @book_router.get("/", response_model=List[Book])
-async def get_all_books(session: AsyncSession = Depends(get_Session)):
+async def get_all_books(session: AsyncSession = Depends(get_Session), user_details: str = Depends(access_token_bearer)):
     all_books = await book_service.get_all_books(session)
 
     return all_books
