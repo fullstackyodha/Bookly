@@ -3,8 +3,6 @@ from datetime import datetime, timedelta
 from src.config import Config
 import jwt
 import uuid
-import json
-
 
 password_context = CryptContext(schemes=["bcrypt"])
 ACCESS_TOKEN_EXP = 3600

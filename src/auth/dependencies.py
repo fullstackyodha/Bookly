@@ -5,7 +5,7 @@ from .utlity import decode_access_token
 from fastapi.exceptions import HTTPException
 from fastapi import status
 
-class AccessTokenBearer(HTTPBearer):
+class TokenBearer(HTTPBearer):
     
     def __init__(self, auto_error: bool = True):
         super().__init__(auto_error=auto_error)
@@ -29,4 +29,9 @@ class AccessTokenBearer(HTTPBearer):
         
         return True if token_data is not None else False
             
-         
+        
+class AccessBearerToken(TokenBearer):
+    pass
+
+class AccessBearerToken(TokenBearer):
+    pass
